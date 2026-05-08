@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "Home",
+    "faq": "FAQ",
+    "about": "About"
+  },
+  "hero": {
+    "title": "BD Passport Photo Converter",
+    "subtitle": "Free, private — runs entirely in your browser"
+  },
+  "upload": {
+    "title": "Upload Photo",
+    "drag": "Drag & drop your photo here or click to browse",
+    "formats": "JPG, PNG, WEBP supported",
+    "or": "or"
+  },
+  "settings": {
+    "preset": "Photo Size",
+    "quality": "Quality",
+    "format": "Format",
+    "bgColor": "Background Color"
+  },
+  "presets": {
+    "bd_standard": "BD Standard",
+    "us_passport": "US Passport",
+    "eu_schengen": "EU / Schengen",
+    "india_visa": "India Visa",
+    "uk_passport": "UK Passport"
+  },
+  "download": {
+    "button": "Download Photo",
+    "process": "Process & Preview",
+    "size": "File size",
+    "processing": "Processing…",
+    "startOver": "Start over"
+  },
+  "spec": {
+    "title": "Passport Photo Requirements",
+    "dimensions": "Size: 35 × 45 mm",
+    "resolution": "Resolution: 300 DPI",
+    "background": "Background: White (#FFFFFF)",
+    "faceCoverage": "Face coverage: 70–80% of frame",
+    "rules": {
+      "recent": "Recent photo (within 6 months)",
+      "eyesOpen": "Eyes open, looking directly at camera",
+      "noSunglasses": "No sunglasses or tinted lenses",
+      "noHeadCovering": "No head covering (except religious)",
+      "neutralExpression": "Neutral expression, mouth closed",
+      "noShadows": "No heavy shadows on face or background"
+    }
+  },
+  "errors": {
+    "invalidLocale": "Invalid locale",
+    "processingFailed": "Failed to process image. Please try again.",
+    "invalidFile": "Unsupported file format."
+  },
+  "a11y": {
+    "uploadZone": "Photo upload area",
+    "preview": "Processed passport photo preview",
+    "langSwitch": "Switch language"
+  }
+}
