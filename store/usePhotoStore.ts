@@ -81,12 +81,12 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
   setBgColor: (bgColor) => set({ bgColor }),
 
   processImage: async () => {
-    const { originalDataUrl, completedCrop, preset, quality, bgColor, outputFormat } = get()
+    const { originalDataUrl, crop, preset, quality, bgColor, outputFormat } = get()
     if (!originalDataUrl) return
     const { processPassportPhoto } = await import('@/lib/imageProcessor')
     const result = await processPassportPhoto(
       originalDataUrl,
-      completedCrop,
+      crop,
       preset,
       quality,
       bgColor,

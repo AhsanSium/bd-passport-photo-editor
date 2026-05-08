@@ -1,5 +1,5 @@
 import type { PhotoPreset } from './presets'
-import type { PixelCrop } from 'react-image-crop'
+import type { PercentCrop } from 'react-image-crop'
 
 export type OutputFormat = 'jpeg' | 'png' | 'webp'
 
@@ -40,7 +40,9 @@ function centerCrop(
 
 export async function processPassportPhoto(
   sourceDataUrl: string,
-  completedCrop: PixelCrop | null,
+  // PercentCrop is scale-independent: values are % of image dimensions, so they
+  // map correctly to naturalWidth/naturalHeight regardless of how the image is displayed.
+  cropPct: PercentCrop | null,
   preset: PhotoPreset,
   quality: number,
   bgColor: string,
@@ -48,6 +50,8 @@ export async function processPassportPhoto(
 ): Promise<{ dataUrl: string; sizeBytes: number }> {
   const img = await loadImage(sourceDataUrl)
   const { widthPx: outW, heightPx: outH } = preset
+  const nw = img.naturalWidth
+  const nh = img.naturalHeight
 
   let canvas: HTMLCanvasElement | OffscreenCanvas
   let ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
@@ -65,14 +69,14 @@ export async function processPassportPhoto(
   ctx.fillStyle = bgColor
   ctx.fillRect(0, 0, outW, outH)
 
-  const { sx, sy, sw, sh } = completedCrop
+  const { sx, sy, sw, sh } = cropPct
     ? {
-        sx: completedCrop.x,
-        sy: completedCrop.y,
-        sw: completedCrop.width,
-        sh: completedCrop.height,
+        sx: (cropPct.x / 100) * nw,
+        sy: (cropPct.y / 100) * nh,
+        sw: (cropPct.width / 100) * nw,
+        sh: (cropPct.height / 100) * nh,
       }
-    : centerCrop(img.naturalWidth, img.naturalHeight, outW, outH)
+    : centerCrop(nw, nh, outW, outH)
 
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH)
 
