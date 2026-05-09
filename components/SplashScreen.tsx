@@ -66,10 +66,10 @@ export function SplashScreen() {
       {/* App name */}
       <div className="animate-fade-up delay-150 mt-7 text-center">
         <p className="font-bangla text-[1.6rem] font-bold leading-tight text-brand-green">
-          পাসপোর্ট ছবি
+          পাসপোর্ট ইমেজ এডিটর
         </p>
         <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
-          BD Passport Photo
+          Passport Image Editor
         </p>
       </div>
 
