@@ -1,8 +1,8 @@
 'use client'
 
 import { useRef, useState, useCallback } from 'react'
-import { Upload, ImageIcon, Zap, Shield, CheckCircle } from 'lucide-react'
-import { usePhotoStore } from '@/store/usePhotoStore'
+import { Upload, PenLine, Lightbulb } from 'lucide-react'
+import { useSignatureStore } from '@/store/useSignatureStore'
 import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/app/[lang]/dictionaries'
 
@@ -13,12 +13,13 @@ interface Props {
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp']
 
-export function UploadZone({ dict, lang }: Props) {
-  const setFile = usePhotoStore((s) => s.setFile)
+export function SignatureUploadZone({ dict, lang }: Props) {
+  const setFile = useSignatureStore((s) => s.setFile)
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const isBn = lang === 'bn'
+  const sig = dict.signature
 
   const handleFile = useCallback(
     (file: File) => {
@@ -60,63 +61,17 @@ export function UploadZone({ dict, lang }: Props) {
     [handleFile],
   )
 
-  const features = [
-    { icon: Zap,          text: dict.hero.features.free,     sub: dict.hero.features.freeDesc },
-    { icon: Shield,       text: dict.hero.features.private,  sub: dict.hero.features.privateDesc },
-    { icon: CheckCircle,  text: dict.hero.features.standard, sub: dict.hero.features.standardDesc },
-  ]
-
   return (
-    <section className="mx-auto flex w-full max-w-2xl flex-col items-center px-4 py-10 sm:py-16">
-      {/* Badge */}
-      <div className="animate-fade-up mb-5 inline-flex items-center gap-1.5 rounded-full border border-brand-green/20 bg-brand-green-light px-3.5 py-1 text-xs font-semibold tracking-wide text-brand-green">
-        <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
-        {dict.hero.badge}
-      </div>
-
-      {/* Headline */}
-      <h1
-        className={cn(
-          'animate-fade-up delay-75 text-center text-3xl font-bold leading-tight text-gray-900 sm:text-4xl',
-          isBn && 'font-bangla',
-        )}
-      >
-        {dict.hero.title}
-      </h1>
-
-      {/* Sub-headline */}
-      <p
-        className={cn(
-          'animate-fade-up delay-150 mt-3 text-center text-base text-gray-500 sm:text-lg',
-          isBn && 'font-bangla',
-        )}
-      >
-        {dict.hero.subtitle}
-      </p>
-
-      {/* Feature chips */}
-      <div className="animate-fade-up delay-225 mt-6 grid w-full grid-cols-3 gap-3">
-        {features.map(({ icon: Icon, text, sub }) => (
-          <div
-            key={text}
-            className="flex flex-col items-center gap-1.5 rounded-xl border border-gray-100 bg-white p-3 text-center shadow-sm"
-          >
-            <Icon className="h-5 w-5 text-brand-green" />
-            <span className={cn('text-xs font-semibold text-gray-700', isBn && 'font-bangla')}>{text}</span>
-            <span className={cn('text-[10px] text-gray-400 leading-tight', isBn && 'font-bangla')}>{sub}</span>
-          </div>
-        ))}
-      </div>
-
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-start">
       {/* Drop zone */}
-      <div className="animate-scale-in delay-300 mt-8 w-full">
+      <div className="flex-1">
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
           onDrop={onDrop}
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
-          aria-label={dict.a11y.uploadZone}
+          aria-label={sig.upload.drag}
           className={cn(
             'w-full rounded-2xl border-2 border-dashed p-10 text-center',
             'cursor-pointer transition-all duration-200',
@@ -134,13 +89,13 @@ export function UploadZone({ dict, lang }: Props) {
               )}
             >
               {isDragging
-                ? <ImageIcon className="h-7 w-7 text-brand-green" />
+                ? <PenLine className="h-7 w-7 text-brand-green" />
                 : <Upload className="h-7 w-7 text-gray-400" />
               }
             </div>
             <div>
               <p className={cn('text-base font-medium text-gray-700', isBn && 'font-bangla')}>
-                {dict.upload.drag}
+                {sig.upload.drag}
               </p>
               <p className="mt-1 text-sm text-gray-400">{dict.upload.formats}</p>
             </div>
@@ -152,6 +107,24 @@ export function UploadZone({ dict, lang }: Props) {
         )}
       </div>
 
+      {/* Tips card */}
+      <div className="sm:w-64 rounded-2xl border border-amber-100 bg-amber-50 p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Lightbulb className="h-4 w-4 text-amber-500 shrink-0" />
+          <h3 className={cn('text-sm font-semibold text-amber-800', isBn && 'font-bangla')}>
+            {sig.tips.title}
+          </h3>
+        </div>
+        <ul className="flex flex-col gap-2">
+          {sig.tips.items.map((tip) => (
+            <li key={tip} className={cn('flex items-start gap-2 text-xs text-amber-700', isBn && 'font-bangla')}>
+              <span className="mt-1 h-1 w-1 rounded-full bg-amber-400 shrink-0" />
+              {tip}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <input
         ref={inputRef}
         type="file"
@@ -160,6 +133,6 @@ export function UploadZone({ dict, lang }: Props) {
         onChange={onInputChange}
         aria-hidden="true"
       />
-    </section>
+    </div>
   )
 }

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getDictionary, hasLocale } from './dictionaries'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
-import { PhotoConverter } from '@/components/PhotoConverter'
+import { ConverterTabs } from '@/components/ConverterTabs'
 
 export async function generateMetadata({
   params,
@@ -31,10 +31,10 @@ export default async function HomePage({
       <Header lang={lang} dict={dict} />
 
       <main className="flex flex-1 flex-col">
-        <PhotoConverter dict={dict} lang={lang} />
+        <ConverterTabs dict={dict} lang={lang} />
       </main>
 
-      <Footer lang={lang} />
+      <Footer lang={lang} dict={dict} />
     </div>
   )
 }

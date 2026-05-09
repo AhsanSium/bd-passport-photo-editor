@@ -1,62 +1,57 @@
 import { create } from 'zustand'
-import type { PercentCrop, PixelCrop } from 'react-image-crop'
-import type { PhotoPreset } from '@/lib/presets'
-import { DEFAULT_PRESET } from '@/lib/presets'
+import type { PercentCrop } from 'react-image-crop'
+import type { SignaturePreset } from '@/lib/signaturePresets'
+import { DEFAULT_SIGNATURE_PRESET } from '@/lib/signaturePresets'
+import type { SigFormat } from '@/lib/signatureProcessor'
 
-export type { PercentCrop, PixelCrop }
+export type { PercentCrop }
 
-export type OutputFormat = 'jpeg' | 'png' | 'webp'
-
-interface PhotoState {
+interface SignatureState {
   originalFile: File | null
   originalDataUrl: string | null
   crop: PercentCrop | null
-  completedCrop: PixelCrop | null
-  preset: PhotoPreset
-  outputFormat: OutputFormat
-  quality: number
-  bgColor: string
+  threshold: number       // 80–240, default 180
+  preset: SignaturePreset
+  outputFormat: SigFormat
+  quality: number         // 0.7–1.0, default 0.92
   processedDataUrl: string | null
   estimatedFileSize: number | null
 
   setFile: (file: File) => void
   setCrop: (crop: PercentCrop) => void
-  setCompletedCrop: (crop: PixelCrop) => void
-  setPreset: (preset: PhotoPreset) => void
-  setFormat: (format: OutputFormat) => void
+  setThreshold: (t: number) => void
+  setPreset: (p: SignaturePreset) => void
+  setFormat: (f: SigFormat) => void
   setQuality: (q: number) => void
-  setBgColor: (color: string) => void
   rotate: (degrees: 90 | -90 | 180) => Promise<void>
-  processImage: () => Promise<void>
+  processSignature: () => Promise<void>
   reset: () => void
 }
 
 const initialState: Pick<
-  PhotoState,
+  SignatureState,
   | 'originalFile'
   | 'originalDataUrl'
   | 'crop'
-  | 'completedCrop'
+  | 'threshold'
   | 'preset'
   | 'outputFormat'
   | 'quality'
-  | 'bgColor'
   | 'processedDataUrl'
   | 'estimatedFileSize'
 > = {
   originalFile: null,
   originalDataUrl: null,
   crop: null,
-  completedCrop: null,
-  preset: DEFAULT_PRESET,
+  threshold: 125,
+  preset: DEFAULT_SIGNATURE_PRESET,
   outputFormat: 'jpeg',
-  quality: 0.9,
-  bgColor: '#FFFFFF',
+  quality: 1.0,
   processedDataUrl: null,
   estimatedFileSize: null,
 }
 
-export const usePhotoStore = create<PhotoState>((set, get) => ({
+export const useSignatureStore = create<SignatureState>((set, get) => ({
   ...initialState,
 
   setFile: (file) => {
@@ -65,47 +60,40 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
       set({
         originalFile: file,
         originalDataUrl: (e.target?.result as string) ?? null,
+        crop: null,
         processedDataUrl: null,
         estimatedFileSize: null,
-        crop: null,
-        completedCrop: null,
       })
     }
     reader.readAsDataURL(file)
   },
 
-  setCrop: (crop) => set({ crop }),
-  setCompletedCrop: (completedCrop) => set({ completedCrop }),
+  setCrop: (crop) => set({ crop, processedDataUrl: null, estimatedFileSize: null }),
+  setThreshold: (threshold) => set({ threshold, processedDataUrl: null, estimatedFileSize: null }),
   setPreset: (preset) => set({ preset, processedDataUrl: null, estimatedFileSize: null }),
   setFormat: (outputFormat) => set({ outputFormat }),
   setQuality: (quality) => set({ quality }),
-  setBgColor: (bgColor) => set({ bgColor }),
 
   rotate: async (degrees) => {
     const { originalDataUrl } = get()
     if (!originalDataUrl) return
     const { rotateImage } = await import('@/lib/rotateImage')
     const rotated = await rotateImage(originalDataUrl, degrees)
-    set({
-      originalDataUrl: rotated,
-      crop: null,
-      completedCrop: null,
-      processedDataUrl: null,
-      estimatedFileSize: null,
-    })
+    // Reset crop after rotation — dimensions change so old percentages are no longer valid
+    set({ originalDataUrl: rotated, crop: null, processedDataUrl: null, estimatedFileSize: null })
   },
 
-  processImage: async () => {
-    const { originalDataUrl, crop, preset, quality, bgColor, outputFormat } = get()
+  processSignature: async () => {
+    const { originalDataUrl, crop, preset, threshold, outputFormat, quality } = get()
     if (!originalDataUrl) return
-    const { processPassportPhoto } = await import('@/lib/imageProcessor')
-    const result = await processPassportPhoto(
+    const { processSignaturePhoto } = await import('@/lib/signatureProcessor')
+    const result = await processSignaturePhoto(
       originalDataUrl,
       crop,
       preset,
-      quality,
-      bgColor,
+      threshold,
       outputFormat,
+      quality,
     )
     set({ processedDataUrl: result.dataUrl, estimatedFileSize: result.sizeBytes })
   },

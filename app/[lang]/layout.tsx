@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Hind_Siliguri } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale } from './dictionaries'
+import { SplashScreen } from '@/components/SplashScreen'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,6 +49,7 @@ export default async function LangLayout({
 
   return (
     <div className={`${inter.variable} ${hindSiliguri.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <SplashScreen />
       {children}
     </div>
   )

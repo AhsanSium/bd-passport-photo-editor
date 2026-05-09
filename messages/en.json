@@ -2,11 +2,21 @@
   "nav": {
     "home": "Home",
     "faq": "FAQ",
-    "about": "About"
+    "about": "About",
+    "contact": "Contact"
   },
   "hero": {
     "title": "BD Passport Photo Converter",
-    "subtitle": "Free, private — runs entirely in your browser"
+    "subtitle": "Make a government-standard passport photo in seconds — free, private, no sign-up",
+    "badge": "Free · Private · No sign-up",
+    "features": {
+      "free": "Always Free",
+      "freeDesc": "No account, no payment",
+      "private": "100% Private",
+      "privateDesc": "Your photo never leaves your device",
+      "standard": "BD Standard",
+      "standardDesc": "35×45 mm, 300 DPI, white background"
+    }
   },
   "upload": {
     "title": "Upload Photo",
@@ -49,6 +59,116 @@
       "noShadows": "No heavy shadows on face or background"
     }
   },
+  "signature": {
+    "tabPhoto": "Passport Photo",
+    "tabSignature": "Signature",
+    "title": "Signature Converter",
+    "subtitle": "Clean and resize your handwritten signature for online applications",
+    "upload": {
+      "drag": "Drag & drop your signature photo or click to browse",
+      "tip": "Photograph your signature on plain white paper in bright, even light"
+    },
+    "settings": {
+      "preset": "Application Type",
+      "threshold": "Ink Threshold",
+      "thresholdHint": "Lower = pick up faint ink · Higher = keep only dark strokes",
+      "format": "Output Format"
+    },
+    "presets": {
+      "bd_passport": "BD Passport Application",
+      "bd_nid": "BD NID / Smart Card",
+      "bd_university": "University Admission Form",
+      "bd_bank": "Bank Account Form",
+      "general": "General (300 × 80 px)"
+    },
+    "process": "Clean & Preview",
+    "processing": "Processing…",
+    "download": "Download Signature",
+    "startOver": "New Signature",
+    "size": "File size",
+    "tips": {
+      "title": "Tips for a good result",
+      "items": [
+        "Sign on bright white paper with blue or black ink",
+        "Photograph flat — keep the camera directly above the paper",
+        "Use bright, even lighting; avoid shadows and glare",
+        "Keep the paper still and the camera steady",
+        "Crop out unnecessary background before uploading"
+      ]
+    }
+  },
+  "faqPage": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about BD Passport Photo Converter",
+    "items": [
+      {
+        "q": "Is this tool really free?",
+        "a": "Yes, completely free — no account, no payment, no hidden charges, ever. We believe every Bangladeshi citizen should have access to a simple tool for preparing their own government documents."
+      },
+      {
+        "q": "Does my photo get uploaded to any server?",
+        "a": "Never. All processing happens entirely inside your browser using the HTML Canvas API. Your photo never leaves your device. We do not have a server that receives images."
+      },
+      {
+        "q": "What are the official Bangladesh passport photo requirements?",
+        "a": "The Government of Bangladesh requires: 35 × 45 mm (413 × 531 px at 300 DPI), plain white background (#FFFFFF), face covering 70–80% of the frame height, recent photo taken within 6 months, eyes open looking directly at the camera, no sunglasses, no heavy shadows."
+      },
+      {
+        "q": "What image formats can I upload?",
+        "a": "You can upload JPG, PNG, or WEBP files. For output, you can save as JPEG (default, smallest file), PNG (lossless), or WEBP (modern compression)."
+      },
+      {
+        "q": "My file size is over 100 KB. What should I do?",
+        "a": "Lower the Quality slider — try 70–80%. For JPEG output, 75% quality usually keeps the file under 100 KB. The preview card shows your estimated file size in real time after you click Process."
+      },
+      {
+        "q": "Can I use this on my mobile phone?",
+        "a": "Yes. The app is fully responsive and works on any modern browser on Android or iOS — Chrome, Safari, Firefox, and Samsung Internet are all supported."
+      },
+      {
+        "q": "Does this work offline?",
+        "a": "Once the page has loaded, image processing works fully offline because it uses only browser APIs. Future versions will add full PWA offline support."
+      },
+      {
+        "q": "Can I use this for other country passport photos?",
+        "a": "Yes. Use the Photo Size selector to switch between BD Standard, US Passport, EU/Schengen, India Visa, and UK Passport presets. Each preset applies the correct dimensions automatically."
+      }
+    ]
+  },
+  "aboutPage": {
+    "title": "About BD Passport Photo",
+    "missionTitle": "Our Mission",
+    "missionText": "We built this tool because getting a government-standard passport photo should not require a trip to a photo studio or uploading your ID photo to an unknown server. Our mission is simple: give every Bangladeshi citizen a fast, free, and private way to prepare their own passport photo — directly in their browser.",
+    "privacyTitle": "Your Privacy Comes First",
+    "privacyText": "This app runs 100% in your browser. No server ever receives your image. No cookies track what you upload. No analytics watch you work. Your photo is processed using the HTML Canvas API and stays entirely on your device. We believe privacy is not a feature — it is a right.",
+    "howTitle": "How It Works",
+    "steps": [
+      "Upload any photo from your device",
+      "Adjust the crop to correctly frame your face",
+      "Choose your format, quality, and background colour",
+      "Click Process & Preview to generate the photo",
+      "Download the result — ready for passport, visa, or NID forms"
+    ],
+    "stackTitle": "Built With",
+    "stackText": "Next.js 16 · TypeScript · Tailwind CSS · Canvas API · React Image Crop · Deployed on Vercel",
+    "closingText": "Built with love for Bangladesh 🇧🇩"
+  },
+  "contactPage": {
+    "title": "Contact Us",
+    "subtitle": "Found a bug, have a suggestion, or just want to say hello?",
+    "emailTitle": "Email",
+    "emailAddress": "ahsansium28@gmail.com",
+    "githubTitle": "GitHub",
+    "githubText": "Open an issue or contribute",
+    "responseNote": "We typically respond within 24–48 hours.",
+    "feedbackTitle": "Quick Feedback",
+    "feedbackItems": [
+      "Report a processing bug",
+      "Request a new photo size preset",
+      "Suggest a UI improvement",
+      "Translation corrections"
+    ]
+  },
   "errors": {
     "invalidLocale": "Invalid locale",
     "processingFailed": "Failed to process image. Please try again.",
@@ -57,6 +177,8 @@
   "a11y": {
     "uploadZone": "Photo upload area",
     "preview": "Processed passport photo preview",
-    "langSwitch": "Switch language"
+    "langSwitch": "Switch language",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
   }
 }
