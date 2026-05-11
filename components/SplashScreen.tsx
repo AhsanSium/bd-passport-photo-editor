@@ -18,6 +18,7 @@ export function SplashScreen() {
     if (sessionStorage.getItem('bd-splash-shown')) return
     sessionStorage.setItem('bd-splash-shown', '1')
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPhase('enter')
 
     const t1 = setTimeout(() => setPhase('hold'), 400)
